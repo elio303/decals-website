@@ -1,1 +1,0 @@
-# decals-website
