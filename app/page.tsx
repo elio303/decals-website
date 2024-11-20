@@ -3,11 +3,8 @@
 import React from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 const Home = () => {
-  const router = useRouter();
-
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>3D Bumpers</h1>
