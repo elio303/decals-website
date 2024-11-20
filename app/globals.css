@@ -1,0 +1,77 @@
+/* Reset and global styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to bottom, #f9f9f9, #e8e8e8);
+  color: #333;
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #000;
+  color: #fff;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Footer styles */
+.footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Page styles */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px); /* Adjust for navbar and footer */
+}
+
+.title {
+  font-size: 48px;
+  margin-bottom: 40px;
+  color: #111;
+}
+
+.helmets {
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+}
+
+.helmet {
+  text-align: center;
+  cursor: pointer;
+}
+
+.helmet:hover p {
+  color: #0070f3;
+  text-decoration: underline;
+}
+
+.caption {
+  font-size: 16px;
+  margin-top: 10px;
+  color: #555;
+}
