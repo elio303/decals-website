@@ -1,5 +1,7 @@
 /* Base Styles (Global) */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -9,7 +11,7 @@ body {
   background-color: #f9f9f9;
   color: #333;
   margin: 0;
-  padding: 0;
+  padding: 20px;
 }
 
 /* Navbar styles */
@@ -82,6 +84,41 @@ body {
   color: #555;
 }
 
-h2, h3 {
+h1, h2, h3 {
   color: #333;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="color"], select, input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  height: 150px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+textarea:focus, input:focus {
+  border-color: #4CAF50;
+}
+
+.textarea {
+  height: 150px;
 }
