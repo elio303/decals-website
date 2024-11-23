@@ -1,9 +1,15 @@
+/* Base Styles (Global) */
+* {
+  box-sizing: border-box;
+}
+
 /* Reset and global styles */
 body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(to bottom, #f9f9f9, #e8e8e8);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f9f9f9;
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 /* Navbar styles */
@@ -74,4 +80,8 @@ body {
   font-size: 16px;
   margin-top: 10px;
   color: #555;
+}
+
+h2, h3 {
+  color: #333;
 }
