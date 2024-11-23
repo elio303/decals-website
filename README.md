@@ -12,6 +12,9 @@ yarn dev
 pnpm dev
 # or
 bun dev
+
+# Note: The below command wil fail - Need to investigate why
+next dev 
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
