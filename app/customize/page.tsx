@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react";
+import Image from "next/image";
 import styles from "./page.module.css";
 
 type QuantityType =
@@ -12,12 +13,16 @@ type QuantityType =
   | "Xenith";
 
 interface FormInput {
-  frontFont: string;
-  rearFont: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  frontBumperType: "Logo" | "Text"; // Front style: Text or Logo
+  rearBumperType: "Logo" | "Text"; // Rear style: Text or Logo
   frontQuantity: number;
   rearQuantity: number;
-  frontQuantityTypes: { [key in QuantityType]: number };
-  rearQuantityTypes: { [key in QuantityType]: number };
+  frontQuantityTypes: { [key in QuantityType]: number }; // Quantity for each bumper type (Flex, Schutt, etc.) for the front
+  rearQuantityTypes: { [key in QuantityType]: number }; // Quantity for each bumper type (Flex, Schutt, etc.) for the rear
   frontBumperColor: string;
   rearBumperColor: string;
   textColor: string;
@@ -26,8 +31,12 @@ interface FormInput {
 
 export default function Customize() {
   const [formInput, setFormInput] = useState<FormInput>({
-    frontFont: "Arial",
-    rearFont: "Verdana",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    frontBumperType: "Text", // Default is Text
+    rearBumperType: "Text",  // Default is Text
     frontQuantity: 1,
     rearQuantity: 1,
     frontQuantityTypes: {
@@ -108,178 +117,240 @@ export default function Customize() {
     <div className={styles.container}>
       <h1 className={styles.title}>Customize Your Bumper</h1>
 
-      {/* Form Container */}
-      <div className={styles.formContainer}>
-        <h2>Customize Font & Color</h2>
-        <form className={styles.form}>
+      {/* Customization Options */}
+      <div className={styles.customizationContainer}>
+        <div className={styles.card}>
+          <h2>Front and Rear Bumper Style</h2>
+          <div className={styles.formGroup}>
+            <label htmlFor="frontBumperType">Front Style:</label>
+            <select
+              id="frontBumperType"
+              name="frontBumperType"
+              value={formInput.frontBumperType}
+              onChange={handleInputChange}
+              className={styles.select}
+            >
+              <option value="Text">Text</option>
+              <option value="Logo">Logo</option>
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="rearBumperType">Rear Style:</label>
+            <select
+              id="rearBumperType"
+              name="rearBumperType"
+              value={formInput.rearBumperType}
+              onChange={handleInputChange}
+              className={styles.select}
+            >
+              <option value="Text">Text</option>
+              <option value="Logo">Logo</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Bumper Color Customization */}
+        <div className={styles.card}>
+          <h2>Color Customization</h2>
+          <div className={styles.formGroup}>
+            <label htmlFor="frontBumperColor">Front Bumper Color:</label>
+            <input
+              type="color"
+              id="frontBumperColor"
+              name="frontBumperColor"
+              value={formInput.frontBumperColor}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="rearBumperColor">Rear Bumper Color:</label>
+            <input
+              type="color"
+              id="rearBumperColor"
+              name="rearBumperColor"
+              value={formInput.rearBumperColor}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="textColor">Text Color:</label>
+            <input
+              type="color"
+              id="textColor"
+              name="textColor"
+              value={formInput.textColor}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="outlineColor">Outline Color:</label>
+            <input
+              type="color"
+              id="outlineColor"
+              name="outlineColor"
+              value={formInput.outlineColor}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+        </div>
+
+        {/* Preview */}
+        <div className={styles.previewContainer}>
+          <h2>Preview</h2>
           <div className={styles.card}>
-            <div className={styles.formGroup}>
-              <label htmlFor="frontFont">Select Front Bumper Font:</label>
-              <select
-                id="frontFont"
-                name="frontFont"
-                value={formInput.frontFont}
-                onChange={handleInputChange}
-                className={styles.select}
-              >
-                <option value="Arial">Arial</option>
-                <option value="Verdana">Verdana</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Courier New">Courier New</option>
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="rearFont">Select Rear Bumper Font:</label>
-              <select
-                id="rearFont"
-                name="rearFont"
-                value={formInput.rearFont}
-                onChange={handleInputChange}
-                className={styles.select}
-              >
-                <option value="Arial">Arial</option>
-                <option value="Verdana">Verdana</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Courier New">Courier New</option>
-              </select>
-            </div>
-
-            {/* Color Customization */}
-            <div className={styles.formGroup}>
-              <label htmlFor="frontBumperColor">Front Bumper Color:</label>
-              <input
-                type="color"
-                id="frontBumperColor"
-                name="frontBumperColor"
-                value={formInput.frontBumperColor}
-                onChange={handleInputChange}
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="rearBumperColor">Rear Bumper Color:</label>
-              <input
-                type="color"
-                id="rearBumperColor"
-                name="rearBumperColor"
-                value={formInput.rearBumperColor}
-                onChange={handleInputChange}
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="textColor">Text Color:</label>
-              <input
-                type="color"
-                id="textColor"
-                name="textColor"
-                value={formInput.textColor}
-                onChange={handleInputChange}
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="outlineColor">Outline Color:</label>
-              <input
-                type="color"
-                id="outlineColor"
-                name="outlineColor"
-                value={formInput.outlineColor}
-                onChange={handleInputChange}
-                className={styles.input}
-              />
-            </div>
-          </div>
-        </form>
-      </div>
-
-      {/* Preview Section */}
-      <div className={styles.previewContainer}>
-        <h2>Preview</h2>
-        <div className={styles.card}>
-          <div
-            className={styles.bumper}
-            style={{
-              backgroundColor: formInput.frontBumperColor,
-              color: formInput.textColor,
-              border: `2px solid ${formInput.outlineColor}`,
-              fontFamily: formInput.frontFont,
-            }}
-          >
-            Front Bumper
-          </div>
-          <div
-            className={styles.bumper}
-            style={{
-              backgroundColor: formInput.rearBumperColor,
-              color: formInput.textColor,
-              border: `2px solid ${formInput.outlineColor}`,
-              fontFamily: formInput.rearFont,
-            }}
-          >
-            Rear Bumper
-          </div>
-        </div>
-      </div>
-
-      {/* Quantity Inputs for Each Type */}
-      <div className={styles.quantityForm}>
-        <h2>Quantity per Type</h2>
-        <div className={styles.card}>
-          <div className={styles.quantityContainer}>
-            <h3>Front Bumper Quantities</h3>
-            {Object.keys(formInput.frontQuantityTypes).map((type) => (
-              <div key={type} className={styles.quantityItem}>
-                <label htmlFor={`front-${type}-Quantity`}>
-                  {type} Quantity:
-                </label>
-                <input
-                  type="number"
-                  id={`front-${type}-Quantity`}
-                  name={`front-${type}`}
-                  value={formInput.frontQuantityTypes[type as QuantityType]}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  min="1"
+            <div
+              className={styles.bumper}
+              style={{
+                backgroundColor: formInput.frontBumperColor,
+                color: formInput.textColor,
+                border: `2px solid ${formInput.outlineColor}`,
+              }}
+            >
+              {formInput.frontBumperType === "Logo" ? (
+                <Image
+                  src="/logo.jpg"
+                  alt="Front Logo"
+                  width={200}
+                  height={100}
+                  className={styles.logo}
                 />
-              </div>
-            ))}
+              ) : (
+                "Front Bumper Text"
+              )}
+            </div>
+            <div
+              className={styles.bumper}
+              style={{
+                backgroundColor: formInput.rearBumperColor,
+                color: formInput.textColor,
+                border: `2px solid ${formInput.outlineColor}`,
+              }}
+            >
+              {formInput.rearBumperType === "Logo" ? (
+                <Image
+                  src="/logo.jpg"
+                  alt="Rear Logo"
+                  width={200}
+                  height={100}
+                  className={styles.logo}
+                />
+              ) : (
+                "Rear Bumper Text"
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Quantity Section for each Type */}
+        <div className={styles.quantityContainer}>
+          <h2>Quantity</h2>
+          <div className={styles.card}>
+            <div>
+              <h3>Front Bumper Quantities</h3>
+              {Object.keys(formInput.frontQuantityTypes).map((type) => (
+                <div key={type} className={styles.quantityType}>
+                  <label>{type}</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formInput.frontQuantityTypes[type as QuantityType]}
+                    onChange={handleInputChange}
+                    name={`front-${type}`}
+                    className={styles.input}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <h3>Rear Bumper Quantities</h3>
+              {Object.keys(formInput.rearQuantityTypes).map((type) => (
+                <div key={type} className={styles.quantityType}>
+                  <label>{type}</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formInput.rearQuantityTypes[type as QuantityType]}
+                    onChange={handleInputChange}
+                    name={`rear-${type}`}
+                    className={styles.input}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Pricing Summary */}
+        <div className={styles.priceSummary}>
+          <h2>Price Summary</h2>
+          <div className={styles.card}>
+            <div>Front Bumper: ${frontPrice}</div>
+            <div>Rear Bumper: ${rearPrice}</div>
+            <div>Total Estimated Price: ${totalEstimate}</div>
+          </div>
+        </div>
+
+        {/* Contact Information */}
+        <div className={styles.card}>
+          <h2>Contact Information</h2>
+          <div className={styles.formGroup}>
+            <label>First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              value={formInput.firstName}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
           </div>
 
-          <div className={styles.quantityContainer}>
-            <h3>Rear Bumper Quantities</h3>
-            {Object.keys(formInput.rearQuantityTypes).map((type) => (
-              <div key={type} className={styles.quantityItem}>
-                <label htmlFor={`rear-${type}-Quantity`}>
-                  {type} Quantity:
-                </label>
-                <input
-                  type="number"
-                  id={`rear-${type}-Quantity`}
-                  name={`rear-${type}`}
-                  value={formInput.rearQuantityTypes[type as QuantityType]}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  min="1"
-                />
-              </div>
-            ))}
+          <div className={styles.formGroup}>
+            <label>Last Name:</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formInput.lastName}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Phone Number:</label>
+            <input
+              type="text"
+              name="phoneNumber"
+              value={formInput.phoneNumber}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formInput.email}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
           </div>
         </div>
       </div>
 
-      {/* Pricing Summary */}
-      <div className={styles.priceSummary}>
-        <h2>Price Summary</h2>
-        <div className={styles.card}>
-          <div>Front Bumper: ${frontPrice}</div>
-          <div>Rear Bumper: ${rearPrice}</div>
-          <div>Total Estimated Price: ${totalEstimate}</div>
-        </div>
+      {/* Total Estimate */}
+      <div className={styles.estimateContainer}>
+        <h3>Total Estimate: ${totalEstimate}</h3>
       </div>
     </div>
   );
