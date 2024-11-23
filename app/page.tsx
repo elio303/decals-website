@@ -1,18 +1,23 @@
 'use client';
 
-import React from 'react';
-import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import styles from './page.module.css';
 
-const Home = () => {
+export default function Home() {
+  const router = useRouter();
+
+  const handleSportSelect = (sport: string) => {
+    router.push(`/customize?sport=${sport}`);
+  };
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>3D Bumpers</h1>
       <h2 className={styles.subtitle}>CHOOSE YOUR SPORT</h2>
       <div className={styles.sportContainer}>
         <div
           className={styles.sport}
-          onClick={() => alert('Baseball Helmet Selected')}
+          onClick={() => handleSportSelect('Baseball Helmet')}
         >
           <Image
             src="/baseball-helmet.png"
@@ -23,7 +28,7 @@ const Home = () => {
         </div>
         <div
           className={styles.sport}
-          onClick={() => alert('Football Helmet Selected')}
+          onClick={() => handleSportSelect('Football Helmet')}
         >
           <Image
             src="/football-helmet.png"
@@ -35,6 +40,4 @@ const Home = () => {
       </div>
     </div>
   );
-};
-
-export default Home;
+}

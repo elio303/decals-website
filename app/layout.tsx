@@ -1,27 +1,26 @@
-import Link from 'next/link';
 import './globals.css';
 
 export const metadata = {
-  title: '3D BUMPERS',
-  description: 'High-quality 3D bumpers for helmets.',
+  title: '3D Bumpers',
+  description: 'Customize your 3D sports helmet bumpers',
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
-        <header className="navbar">
-          <div className="logo">3D BUMPERS</div>
-          <nav>
-            <Link href="">Home</Link>
-            <a href="/partners">Partners</a>
-          </nav>
+        <header style={{ textAlign: 'center', padding: '1rem', background: '#f8f8f8' }}>
+          <h1>3D Bumpers App</h1>
         </header>
-        {children}
-        <footer className="footer">© 2024 3D BUMPERS. All rights reserved.</footer>
+        <main>{children}</main>
+        <footer style={{ textAlign: 'center', padding: '1rem', background: '#f8f8f8' }}>
+          <p>© 2024 3D Bumpers</p>
+        </footer>
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
