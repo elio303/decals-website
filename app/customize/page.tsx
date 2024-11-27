@@ -176,99 +176,97 @@ export default function Customize() {
         </div>
 
         {/* Preview Section */}
-        <div className={styles.previewContainer}>
-          <h2>Preview</h2>
-          <div className={styles.card}>
-            {/* Front Bumper Preview */}
-            <div>
-              <h3>Front Bumper Preview</h3>
-              <div
-                className={styles.bumper}
-                style={{
-                  backgroundColor: formInput.frontBumperColor,
-                  color: formInput.textColor,
-                  border: `2px solid ${formInput.outlineColor}`,
-                }}
-              >
-                {formInput.frontBumperType === "Logo" ? (
-                  <Image
-                    src="/logo.jpg"
-                    alt="Front Logo"
-                    width={200}
-                    height={100}
-                    className={styles.logo}
-                  />
-                ) : (
-                  "Front Bumper Text"
-                )}
-              </div>
+        <div className={styles.card}>
+          {/* Front Bumper Preview */}
+          <div>
+            <h3>Front Bumper Preview</h3>
+            <div
+              className={styles.bumper}
+              style={{
+                backgroundColor: formInput.frontBumperColor,
+                color: formInput.textColor,
+                border: `2px solid ${formInput.outlineColor}`,
+              }}
+            >
+              {formInput.frontBumperType === "Logo" ? (
+                <Image
+                  src="/logo.jpg"
+                  alt="Front Logo"
+                  width={200}
+                  height={100}
+                  className={styles.logo}
+                />
+              ) : (
+                "Front Bumper Text"
+              )}
             </div>
+          </div>
 
-            {/* Rear Bumper Preview */}
-            <div>
-              <h3>Rear Bumper Preview</h3>
-              <div
-                className={styles.bumper}
-                style={{
-                  backgroundColor: formInput.rearBumperColor,
-                  color: formInput.textColor,
-                  border: `2px solid ${formInput.outlineColor}`,
-                }}
-              >
-                {formInput.rearBumperType === "Logo" ? (
-                  <Image
-                    src="/logo.jpg"
-                    alt="Rear Logo"
-                    width={200}
-                    height={100}
-                    className={styles.logo}
-                  />
-                ) : (
-                  "Rear Bumper Text"
-                )}
-              </div>
+          {/* Rear Bumper Preview */}
+          <div>
+            <h3>Rear Bumper Preview</h3>
+            <div
+              className={styles.bumper}
+              style={{
+                backgroundColor: formInput.rearBumperColor,
+                color: formInput.textColor,
+                border: `2px solid ${formInput.outlineColor}`,
+              }}
+            >
+              {formInput.rearBumperType === "Logo" ? (
+                <Image
+                  src="/logo.jpg"
+                  alt="Rear Logo"
+                  width={200}
+                  height={100}
+                  className={styles.logo}
+                />
+              ) : (
+                "Rear Bumper Text"
+              )}
             </div>
           </div>
         </div>
 
-        {/* Quantity Section */}
+        {/* Front Bumper Quantity Section (Separate Card) */}
         <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Quantity</h2>
+          <h3>Front Bumper Quantities</h3>
           <div className={styles.quantitySection}>
-            <div>
-              <h3>Front Bumper</h3>
-              {Object.keys(formInput.frontQuantityTypes).map((type) => (
-                <div key={`front-${type}`} className={styles.inputRow}>
-                  <label htmlFor={`front-${type}`}>{type}</label>
-                  <input
-                    type="number"
-                    id={`front-${type}`}
-                    name={`front-${type}`}
-                    value={formInput.frontQuantityTypes[type as QuantityType]}
-                    onChange={handleInputChange}
-                    min="0"
-                    className={styles.input}
-                  />
-                </div>
-              ))}
-            </div>
-            <div>
-              <h3>Rear Bumper</h3>
-              {Object.keys(formInput.rearQuantityTypes).map((type) => (
-                <div key={`rear-${type}`} className={styles.inputRow}>
-                  <label htmlFor={`rear-${type}`}>{type}</label>
-                  <input
-                    type="number"
-                    id={`rear-${type}`}
-                    name={`rear-${type}`}
-                    value={formInput.rearQuantityTypes[type as QuantityType]}
-                    onChange={handleInputChange}
-                    min="0"
-                    className={styles.input}
-                  />
-                </div>
-              ))}
-            </div>
+            {Object.keys(formInput.frontQuantityTypes).map((type) => (
+              <div key={`front-${type}`} className={styles.inputRow}>
+                <label htmlFor={`front-${type}`}>{type}</label>
+                <input
+                  type="number"
+                  id={`front-${type}`}
+                  name={`front-${type}`}
+                  value={formInput.frontQuantityTypes[type as QuantityType]}
+                  onChange={handleInputChange}
+                  min="0"
+                  className={styles.input}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Rear Bumper Quantity Section (Separate Card) */}
+        <div className={styles.card}>
+          <h3>Rear Bumper Quantities</h3>
+          <div className={styles.quantitySection}>
+            {Object.keys(formInput.rearQuantityTypes).map((type) => (
+              <div key={`rear-${type}`} className={styles.inputRow}>
+                <label htmlFor={`rear-${type}`}>{type}</label>
+                <input
+                  type="number"
+                  id={`rear-${type}`}
+                  name={`rear-${type}`}
+                  value={formInput.rearQuantityTypes[type as QuantityType]}
+                  onChange={handleInputChange}
+                  min="0"
+                  className={styles.input}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
