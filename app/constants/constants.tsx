@@ -1,29 +1,4 @@
-export type QuantityType =
-  | 'Riddell Flex'
-  | 'Riddell Speed'
-  | 'Riddell Axiom'
-  | 'Schutt XP/DNA'
-  | 'Schutt F7'
-  | 'Xenith X2E'
-  | 'Xenith Shadow'
-  | 'Xenith Orbit'
-  | 'Light'
-  | 'Vicis Zero 2'
-  | 'Vicis Trench';
-
-export type BumperPosition = 'front' | 'rear';
-
-export const pricePerUnit = {
-  frontBumper: 2.5,
-  rearBumper: 3.5,
-};
-
-export type ExtraCost = {
-  cost: number;
-  types: QuantityType[];
-};
-
-export type ExtraCosts = { [key in BumperPosition]: ExtraCost[] };
+import { ExtraCosts } from "../types/calculations";
 
 export const extraCosts: ExtraCosts = {
   front: [
@@ -49,4 +24,9 @@ export const extraCosts: ExtraCosts = {
     { cost: 50, types: ['Schutt F7'] },
     { cost: 35, types: ['Xenith Shadow', 'Xenith Orbit'] },
   ],
+};
+
+export const pricePerUnit = {
+  frontBumper: 2.5,
+  rearBumper: 3.5,
 };

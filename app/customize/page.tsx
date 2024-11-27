@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
-import {
-  QuantityType,
-} from '../constants/constants';
+import { QuantityType, BumperType } from '../types/calculations';
 import { calculateBasePrice, calculateMoldCost, calculateShippingCost } from '../utils/calculate'; // Import the calculation functions
 
 interface FormInput {
@@ -13,8 +11,8 @@ interface FormInput {
   lastName: string;
   phoneNumber: string;
   email: string;
-  frontBumperType: 'Logo' | 'Text';
-  rearBumperType: 'Logo' | 'Text';
+  frontBumperType: BumperType;
+  rearBumperType: BumperType;
   frontQuantityTypes: { [key in QuantityType]: number };
   rearQuantityTypes: { [key in QuantityType]: number };
   frontBumperColor: string;
@@ -99,6 +97,41 @@ export default function Customize() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Customize Your Bumper</h1>
+
+      {/* Bumper Type Selection */}
+      <div className={styles.card}>
+        <h2 className={styles.sectionTitle}>Bumper Type</h2>
+        
+        {/* Front Bumper Type */}
+        <div className={styles.inputRow}>
+          <label htmlFor="frontBumperType">Front Bumper Type:</label>
+          <select
+            id="frontBumperType"
+            name="frontBumperType"
+            value={formInput.frontBumperType}
+            onChange={handleInputChange}
+            className={styles.input}
+          >
+            <option value="Text">Text</option>
+            <option value="Logo">Logo</option>
+          </select>
+        </div>
+
+        {/* Rear Bumper Type */}
+        <div className={styles.inputRow}>
+          <label htmlFor="rearBumperType">Rear Bumper Type:</label>
+          <select
+            id="rearBumperType"
+            name="rearBumperType"
+            value={formInput.rearBumperType}
+            onChange={handleInputChange}
+            className={styles.input}
+          >
+            <option value="Text">Text</option>
+            <option value="Logo">Logo</option>
+          </select>
+        </div>
+      </div>
 
       <form>
         {/* Color Customization Section */}
