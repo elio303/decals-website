@@ -3,21 +3,12 @@
 import { useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
-
-type QuantityType =
-  | 'Riddell Flex'
-  | 'Riddell Speed'
-  | 'Riddell Axiom'
-  | 'Schutt XP/DNA'
-  | 'Schutt F7'
-  | 'Xenith X2E'
-  | 'Xenith Shadow'
-  | 'Xenith Orbit'
-  | 'Light'
-  | 'Vicis Zero 2'
-  | 'Vicis Trench';
-
-type BumperPosition = 'front' | 'rear';
+import {
+  pricePerUnit,
+  extraCosts,
+  QuantityType,
+  BumperPosition,
+} from './constants';
 
 interface FormInput {
   firstName: string;
@@ -33,44 +24,6 @@ interface FormInput {
   textColor: string;
   outlineColor: string;
 }
-
-const pricePerUnit = {
-  frontBumper: 2.5,
-  rearBumper: 3.5,
-};
-
-type ExtraCost = {
-  cost: number;
-  types: QuantityType[];
-};
-
-type ExtraCosts = { [key in BumperPosition]: ExtraCost[] };
-
-const extraCosts: ExtraCosts = {
-  front: [
-    { cost: 50, types: ['Riddell Flex'] },
-    {
-      cost: 50,
-      types: [
-        'Riddell Speed',
-        'Riddell Axiom',
-        'Schutt XP/DNA',
-        'Schutt F7',
-        'Xenith X2E',
-        'Xenith Shadow',
-        'Light',
-      ],
-    },
-    { cost: 35, types: ['Vicis Zero 2'] },
-    { cost: 35, types: ['Vicis Trench'] },
-  ],
-  rear: [
-    { cost: 50, types: ['Riddell Flex', 'Riddell Speed', 'Riddell Axiom', 'Light'] },
-    { cost: 50, types: ['Schutt XP/DNA', 'Xenith X2E', 'Xenith Shadow', 'Vicis Zero 2', 'Vicis Trench', 'Schutt F7'] },
-    { cost: 50, types: ['Schutt F7'] },
-    { cost: 35, types: ['Xenith Shadow', 'Xenith Orbit'] },
-  ],
-};
 
 export default function Customize() {
   const [formInput, setFormInput] = useState<FormInput>({
