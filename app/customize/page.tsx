@@ -223,28 +223,57 @@ export default function Customize() {
         </div>
 
         {/* Preview Section */}
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Preview</h2>
-          <div className={styles.previewContainer}>
-            <div
-              className={styles.previewBumper}
-              style={{
-                backgroundColor: formInput.frontBumperColor,
-                color: formInput.textColor,
-                borderColor: formInput.outlineColor,
-              }}
-            >
-              Front Bumper
+        <div className={styles.previewContainer}>
+          <h2>Preview</h2>
+          <div className={styles.card}>
+            {/* Front Bumper Preview */}
+            <div>
+              <h3>Front Bumper Preview</h3>
+              <div
+                className={styles.bumper}
+                style={{
+                  backgroundColor: formInput.frontBumperColor,
+                  color: formInput.textColor,
+                  border: `2px solid ${formInput.outlineColor}`,
+                }}
+              >
+                {formInput.frontBumperType === "Logo" ? (
+                  <Image
+                    src="/logo.jpg"
+                    alt="Front Logo"
+                    width={200}
+                    height={100}
+                    className={styles.logo}
+                  />
+                ) : (
+                  "Front Bumper Text"
+                )}
+              </div>
             </div>
-            <div
-              className={styles.previewBumper}
-              style={{
-                backgroundColor: formInput.rearBumperColor,
-                color: formInput.textColor,
-                borderColor: formInput.outlineColor,
-              }}
-            >
-              Rear Bumper
+
+            {/* Rear Bumper Preview */}
+            <div>
+              <h3>Rear Bumper Preview</h3>
+              <div
+                className={styles.bumper}
+                style={{
+                  backgroundColor: formInput.rearBumperColor,
+                  color: formInput.textColor,
+                  border: `2px solid ${formInput.outlineColor}`,
+                }}
+              >
+                {formInput.rearBumperType === "Logo" ? (
+                  <Image
+                    src="/logo.jpg"
+                    alt="Rear Logo"
+                    width={200}
+                    height={100}
+                    className={styles.logo}
+                  />
+                ) : (
+                  "Rear Bumper Text"
+                )}
+              </div>
             </div>
           </div>
         </div>
