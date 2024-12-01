@@ -1,4 +1,4 @@
-import { ExtraCosts } from "../types/calculations";
+import { ExtraCosts } from "../types/types";
 
 export const extraCosts: ExtraCosts = {
   front: [

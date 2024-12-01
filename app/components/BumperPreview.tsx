@@ -1,7 +1,7 @@
 // components/BumperPreview.tsx
 import Image from 'next/image';
 import styles from './BumperPreview.module.css';
-import { BumperType } from '../types/calculations';
+import { BumperType } from '../types/types';
 
 const BumperPreview = ({
   bumperType,

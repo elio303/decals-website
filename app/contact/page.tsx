@@ -1,80 +1,96 @@
-// app/contact/page.tsx
 'use client';
 
-import { useGlobalState } from '../../context/GlobalStateContext';
+import { useRouter } from 'next/navigation';
+import { useFormContext } from '@/context/FormContext';
+import { FormInput } from '@/app/types/types';
+import styles from '@/app/contact/page.module.css'; 
 
 export default function ContactForm() {
-  const { formData, setFormData } = useGlobalState();
+  const router = useRouter();
+  const { formInput, setFormInput } = useFormContext(); 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, dataset } = e.target;
 
-    setFormData((prev) => {
-        // Check if it's one of the dynamic quantity types
-        if (name === 'frontQuantityTypes' || name === 'rearQuantityTypes') {
-          const dynamicKey = dataset.key || ''; 
-          return {
-            ...prev,
-            [name]: {
-              ...prev[name as 'frontQuantityTypes' | 'rearQuantityTypes'],
-              [dynamicKey]: Number(value),
-            },
-          };
-        }
-    
-        // For all other fields
+    setFormInput((prev: FormInput) => {
+      if (name === 'frontQuantityTypes' || name === 'rearQuantityTypes') {
+        const dynamicKey = dataset.key || ''; 
         return {
           ...prev,
-          [name]: value,
+          [name]: {
+            ...prev[name as 'frontQuantityTypes' | 'rearQuantityTypes'],
+            [dynamicKey]: Number(value),
+          },
         };
-      });
+      }
+
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const navigateToConfirmation = () => {
+    console.log(formInput);
+    router.push('/confirmation');
   };
 
   return (
-    <form>
-      <input
-        type="text"
-        name="firstName"
-        value={formData.firstName}
-        onChange={handleChange}
-        placeholder="First Name"
-      />
-      <input
-        type="text"
-        name="lastName"
-        value={formData.lastName}
-        onChange={handleChange}
-        placeholder="Last Name"
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-      />
-      <input
-        type="tel"
-        name="phoneNumber"
-        value={formData.phoneNumber}
-        onChange={handleChange}
-        placeholder="Phone Number"
-      />
-      <select
-        name="frontBumperType"
-        value={formData.frontBumperType}
-        onChange={handleChange}
-      >
-        <option value="Text">Text</option>
-        <option value="Logo">Logo</option>
-      </select>
-      <input
-        type="color"
-        name="frontBumperColor"
-        value={formData.frontBumperColor}
-        onChange={handleChange}
-      />
-      <button type="submit">Submit</button>
+    <form className={styles.form}>
+      <h2 className={styles.title}>Contact Us</h2>
+
+      <div className={styles.inputGroup}>
+        <label htmlFor="firstName">First Name</label>
+        <input
+          type="text"
+          name="firstName"
+          id="firstName"
+          value={formInput.firstName}  // Use formInput from context
+          onChange={handleChange}
+          placeholder="Enter your first name"
+        />
+      </div>
+
+      <div className={styles.inputGroup}>
+        <label htmlFor="lastName">Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          id="lastName"
+          value={formInput.lastName} // Use formInput from context
+          onChange={handleChange}
+          placeholder="Enter your last name"
+        />
+      </div>
+
+      <div className={styles.inputGroup}>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          value={formInput.email} // Use formInput from context
+          onChange={handleChange}
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <div className={styles.inputGroup}>
+        <label htmlFor="phoneNumber">Phone Number</label>
+        <input
+          type="tel"
+          name="phoneNumber"
+          id="phoneNumber"
+          value={formInput.phoneNumber} // Use formInput from context
+          onChange={handleChange}
+          placeholder="Enter your phone number"
+        />
+      </div>
+
+      <button type="button" onClick={navigateToConfirmation} className={styles.button}>
+        Submit
+      </button>
     </form>
   );
 }

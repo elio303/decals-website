@@ -1,5 +1,5 @@
 import styles from './QuantitySection.module.css';
-import { QuantityType } from '../types/calculations';
+import { QuantityType } from '../types/types';
 
 const QuantitySection = ({
   title,

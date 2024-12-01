@@ -1,5 +1,5 @@
-import { pricePerUnit, extraCosts } from '../constants/constants';
-import { QuantityType , BumperPosition } from '../types/calculations';
+import { pricePerUnit, extraCosts } from '@/app/constants/constants';
+import { QuantityType , BumperPosition } from '@/app/types/types';
 
 // Calculate base price
 export const calculateBasePrice = (quantityTypes: { [key in QuantityType]: number }, position: BumperPosition) => {

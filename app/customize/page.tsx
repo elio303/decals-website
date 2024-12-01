@@ -1,70 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './page.module.css';
-import ColorInput from '../components/ColorInput';
-import BumperPreview from '../components/BumperPreview';
-import QuantitySection from '../components/QuantitySection';
-import PricingSection from '../components/PricingSection';
-import { QuantityType, BumperType } from '../types/calculations';
-import { calculateBasePrice, calculateMoldCost, calculateShippingCost } from '../utils/calculate';
+import styles from '@/app/customize/page.module.css';
+import ColorInput from '@/app/components/ColorInput';
+import BumperPreview from '@/app/components/BumperPreview';
+import QuantitySection from '@/app/components/QuantitySection';
+import PricingSection from '@/app/components/PricingSection';
+import { QuantityType } from '@/app/types/types';
+import { calculateBasePrice, calculateMoldCost, calculateShippingCost } from '@/app/utils/calculate';
+import { useFormContext } from '@/context/FormContext';
+import { FormInput } from '@/app/types/types';
 
-interface FormInput {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  frontBumperType: BumperType;
-  rearBumperType: BumperType;
-  frontQuantityTypes: { [key in QuantityType]: number };
-  rearQuantityTypes: { [key in QuantityType]: number };
-  frontBumperColor: string;
-  rearBumperColor: string;
-  textColor: string;
-  outlineColor: string;
-}
-
-export default function Customize() {
+const Customize = () => {
   const router = useRouter();
-  const [formInput, setFormInput] = useState<FormInput>({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-    frontBumperType: 'Text',
-    rearBumperType: 'Text',
-    frontQuantityTypes: {
-      'Riddell Flex': 0,
-      'Riddell Speed': 0,
-      'Riddell Axiom': 0,
-      'Schutt XP/DNA': 0,
-      'Schutt F7': 0,
-      'Xenith X2E': 0,
-      'Xenith Shadow': 0,
-      'Xenith Orbit': 0,
-      'Light': 0,
-      'Vicis Zero 2': 0,
-      'Vicis Trench': 0,
-    },
-    rearQuantityTypes: {
-      'Riddell Flex': 0,
-      'Riddell Speed': 0,
-      'Riddell Axiom': 0,
-      'Schutt XP/DNA': 0,
-      'Schutt F7': 0,
-      'Xenith X2E': 0,
-      'Xenith Shadow': 0,
-      'Xenith Orbit': 0,
-      'Light': 0,
-      'Vicis Zero 2': 0,
-      'Vicis Trench': 0,
-    },
-    frontBumperColor: '#FF0000',
-    rearBumperColor: '#0000FF',
-    textColor: '#FFFFFF',
-    outlineColor: '#000000',
-  });
+  const { formInput, setFormInput } = useFormContext();
 
   const frontBasePrice = calculateBasePrice(formInput.frontQuantityTypes, 'front');
   const rearBasePrice = calculateBasePrice(formInput.rearQuantityTypes, 'rear');
@@ -84,7 +33,7 @@ export default function Customize() {
     if (name.startsWith('front-') || name.startsWith('rear-')) {
       const [position, type] = name.split('-') as ['front' | 'rear', QuantityType];
 
-      setFormInput((prevState) => ({
+      setFormInput((prevState: FormInput) => ({
         ...prevState,
         [`${position}QuantityTypes`]: {
           ...(prevState[`${position}QuantityTypes`] as { [key in QuantityType]: number }),
@@ -92,14 +41,17 @@ export default function Customize() {
         },
       }));
     } else {
-      setFormInput((prevState) => ({
+      setFormInput((prevState: FormInput) => ({
         ...prevState,
         [name]: value,
       }));
     }
   };
 
-  const navigateToContact = () => router.push('/contact');
+  const navigateToContact = () => {
+    console.log(formInput);
+    router.push('/contact');
+  };
 
   return (
     <div className={styles.container}>
@@ -174,3 +126,5 @@ export default function Customize() {
     </div>
   );
 }
+
+export default Customize;
