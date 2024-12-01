@@ -19,3 +19,5 @@ export type ExtraCost = {
 export type ExtraCosts = { [key in BumperPosition]: ExtraCost[] };
 
 export type BumperPosition = 'front' | 'rear';
+
+export type BumperType = 'Logo' | 'Text';
