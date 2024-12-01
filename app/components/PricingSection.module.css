@@ -1,0 +1,38 @@
+/* page.module.css */
+
+/* Card for Pricing Section */
+.card {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Pricing Section title styling */
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Pricing details like cost and sub-total */
+.card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  margin-top: 10px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* If you want to add any highlights for the sub-totals or price totals */
+.card .highlight {
+  color: #1a73e8;
+  font-weight: bold;
+}

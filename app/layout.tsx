@@ -1,4 +1,5 @@
-import './globals.css';
+import './styles/globals.css';
+import { GlobalStateProvider } from '../context/GlobalStateContext';
 
 export const metadata = {
   title: '3D Bumpers',
@@ -16,7 +17,11 @@ export default function RootLayout({
         <header style={{ textAlign: 'center', padding: '1rem', background: '#f8f8f8' }}>
           <h1>3D Bumpers App</h1>
         </header>
-        <main>{children}</main>
+        <main>
+          <GlobalStateProvider>
+            {children}
+          </GlobalStateProvider>
+        </main>
         <footer style={{ textAlign: 'center', padding: '1rem', background: '#f8f8f8' }}>
           <p>© 2024 3D Bumpers</p>
         </footer>

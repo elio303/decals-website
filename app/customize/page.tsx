@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
-import Image from 'next/image';
+import ColorInput from '../components/ColorInput';
+import BumperPreview from '../components/BumperPreview';
+import QuantitySection from '../components/QuantitySection';
+import PricingSection from '../components/PricingSection';
 import { QuantityType, BumperType } from '../types/calculations';
 import { calculateBasePrice, calculateMoldCost, calculateShippingCost } from '../utils/calculate';
 
@@ -96,10 +99,7 @@ export default function Customize() {
     }
   };
 
-  const navigateToContact = () => {
-    const queryString = encodeURIComponent(JSON.stringify(formInput));
-    router.push(`/contact?formData=${queryString}`);
-  };
+  const navigateToContact = () => router.push('/contact');
 
   return (
     <div className={styles.container}>
@@ -108,8 +108,6 @@ export default function Customize() {
       {/* Bumper Type Selection */}
       <div className={styles.card}>
         <h2 className={styles.sectionTitle}>Bumper Type</h2>
-        
-        {/* Front Bumper Type */}
         <div className={styles.inputRow}>
           <label htmlFor="frontBumperType">Front Bumper Type:</label>
           <select
@@ -124,7 +122,6 @@ export default function Customize() {
           </select>
         </div>
 
-        {/* Rear Bumper Type */}
         <div className={styles.inputRow}>
           <label htmlFor="rearBumperType">Rear Bumper Type:</label>
           <select
@@ -140,187 +137,40 @@ export default function Customize() {
         </div>
       </div>
 
-      <form>
-        {/* Color Customization Section */}
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Color Customization</h2>
-          <div className={styles.inputRow}>
-            <label htmlFor="frontBumperColor">Front Bumper Color:</label>
-            <input
-              type="color"
-              id="frontBumperColor"
-              name="frontBumperColor"
-              value={formInput.frontBumperColor}
-              onChange={handleInputChange}
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.inputRow}>
-            <label htmlFor="rearBumperColor">Rear Bumper Color:</label>
-            <input
-              type="color"
-              id="rearBumperColor"
-              name="rearBumperColor"
-              value={formInput.rearBumperColor}
-              onChange={handleInputChange}
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.inputRow}>
-            <label htmlFor="textColor">Text Color:</label>
-            <input
-              type="color"
-              id="textColor"
-              name="textColor"
-              value={formInput.textColor}
-              onChange={handleInputChange}
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.inputRow}>
-            <label htmlFor="outlineColor">Outline Color:</label>
-            <input
-              type="color"
-              id="outlineColor"
-              name="outlineColor"
-              value={formInput.outlineColor}
-              onChange={handleInputChange}
-              className={styles.input}
-            />
-          </div>
-        </div>
+      {/* Color Customization Section */}
+      <div className={styles.card}>
+        <h2 className={styles.sectionTitle}>Color Customization</h2>
+        <ColorInput id="frontBumperColor" label="Front Bumper Color" value={formInput.frontBumperColor} onChange={handleInputChange} />
+        <ColorInput id="rearBumperColor" label="Rear Bumper Color" value={formInput.rearBumperColor} onChange={handleInputChange} />
+        <ColorInput id="textColor" label="Text Color" value={formInput.textColor} onChange={handleInputChange} />
+        <ColorInput id="outlineColor" label="Outline Color" value={formInput.outlineColor} onChange={handleInputChange} />
+      </div>
 
-        {/* Preview Section */}
-        <div className={styles.card}>
-          {/* Front Bumper Preview */}
-          <div>
-            <h3>Front Bumper Preview</h3>
-            <div
-              className={styles.bumper}
-              style={{
-                backgroundColor: formInput.frontBumperColor,
-                color: formInput.textColor,
-                border: `2px solid ${formInput.outlineColor}`,
-              }}
-            >
-              {formInput.frontBumperType === "Logo" ? (
-                <Image
-                  src="/logo.jpg"
-                  alt="Front Logo"
-                  width={200}
-                  height={100}
-                  className={styles.logo}
-                />
-              ) : (
-                "Front Bumper Text"
-              )}
-            </div>
-          </div>
+      {/* Preview Section */}
+      <div className={styles.card}>
+        <BumperPreview bumperType={formInput.frontBumperType} bumperColor={formInput.frontBumperColor} textColor={formInput.textColor} outlineColor={formInput.outlineColor} label="Front" />
+        <BumperPreview bumperType={formInput.rearBumperType} bumperColor={formInput.rearBumperColor} textColor={formInput.textColor} outlineColor={formInput.outlineColor} label="Rear" />
+      </div>
 
-          {/* Rear Bumper Preview */}
-          <div>
-            <h3>Rear Bumper Preview</h3>
-            <div
-              className={styles.bumper}
-              style={{
-                backgroundColor: formInput.rearBumperColor,
-                color: formInput.textColor,
-                border: `2px solid ${formInput.outlineColor}`,
-              }}
-            >
-              {formInput.rearBumperType === "Logo" ? (
-                <Image
-                  src="/logo.jpg"
-                  alt="Rear Logo"
-                  width={200}
-                  height={100}
-                  className={styles.logo}
-                />
-              ) : (
-                "Rear Bumper Text"
-              )}
-            </div>
-          </div>
-        </div>
+      {/* Quantity Sections */}
+      <QuantitySection title="Front Bumper Quantities" quantityTypes={formInput.frontQuantityTypes} handleInputChange={handleInputChange} prefix="front" />
+      <QuantitySection title="Rear Bumper Quantities" quantityTypes={formInput.rearQuantityTypes} handleInputChange={handleInputChange} prefix="rear" />
 
-        {/* Quantity and Pricing Sections */}
-        {/* Front Bumper Quantity Section */}
-        <div className={styles.card}>
-          <h3>Front Bumper Quantities</h3>
-          <div className={styles.quantitySection}>
-            {Object.keys(formInput.frontQuantityTypes).map((type) => (
-              <div key={`front-${type}`} className={styles.inputRow}>
-                <label htmlFor={`front-${type}`}>{type}</label>
-                <input
-                  type="number"
-                  id={`front-${type}`}
-                  name={`front-${type}`}
-                  value={formInput.frontQuantityTypes[type as QuantityType]}
-                  onChange={handleInputChange}
-                  min="0"
-                  className={styles.input}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Pricing Sections */}
+      <PricingSection title="Base Price" frontCost={frontBasePrice} rearCost={rearBasePrice} subTotal={baseSubTotal} label="Base" />
+      <PricingSection title="Mold Cost" frontCost={frontMoldCost} rearCost={rearMoldCost} subTotal={moldSubTotal} label="Mold" />
+      <PricingSection title="Shipping Cost" frontCost={frontShippingCost} rearCost={rearShippingCost} subTotal={totalShippingCost} label="Shipping" />
 
-        {/* Rear Bumper Quantity Section */}
-        <div className={styles.card}>
-          <h3>Rear Bumper Quantities</h3>
-          <div className={styles.quantitySection}>
-            {Object.keys(formInput.rearQuantityTypes).map((type) => (
-              <div key={`rear-${type}`} className={styles.inputRow}>
-                <label htmlFor={`rear-${type}`}>{type}</label>
-                <input
-                  type="number"
-                  id={`rear-${type}`}
-                  name={`rear-${type}`}
-                  value={formInput.rearQuantityTypes[type as QuantityType]}
-                  onChange={handleInputChange}
-                  min="0"
-                  className={styles.input}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Total Section */}
+      <div className={styles.card}>
+        <h2 className={styles.sectionTitle}>Total Estimate</h2>
+        <h3>Total Estimate (Base + Mold + Shipping): ${totalEstimate.toFixed(2)}</h3>
+      </div>
 
-        {/* Pricing Sections */}
-        {/* Base Price Section */}
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Base Price</h2>
-          <p>Front Bumper Base Price: ${frontBasePrice.toFixed(2)}</p>
-          <p>Rear Bumper Base Price: ${rearBasePrice.toFixed(2)}</p>
-          <h3>Base Sub-total: ${baseSubTotal.toFixed(2)}</h3>
-        </div>
-
-        {/* Mold Cost Section */}
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Mold Cost</h2>
-          <p>Front Bumper Mold Cost: ${frontMoldCost.toFixed(2)}</p>
-          <p>Rear Bumper Mold Cost: ${rearMoldCost.toFixed(2)}</p>
-          <h3>Mold Sub-total: ${moldSubTotal.toFixed(2)}</h3>
-        </div>
-
-        {/* Shipping Section */}
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Shipping Cost</h2>
-          <p>Front Bumper Shipping Cost: ${frontShippingCost.toFixed(2)}</p>
-          <p>Rear Bumper Shipping Cost: ${rearShippingCost.toFixed(2)}</p>
-        </div>
-
-        {/* Total Section */}
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Total Estimate</h2>
-          <h3>Total Estimate (Base + Mold + Shipping): ${totalEstimate.toFixed(2)}</h3>
-        </div>
-
-        {/* Navigation Button */}
-        <button type="button" onClick={navigateToContact} className={styles.button}>
-          Next
-        </button>
-      </form>
+      {/* Navigation Button */}
+      <button type="button" onClick={navigateToContact} className={styles.button}>
+        Next
+      </button>
     </div>
   );
 }
