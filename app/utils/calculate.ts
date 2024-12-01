@@ -1,4 +1,4 @@
-import { pricePerUnit, extraCosts } from '@/app/constants/constants';
+import { pricePerUnit, extraCosts, baseballConstants } from '@/app/constants/constants';
 import { QuantityType , BumperPosition } from '@/app/types/types';
 
 // Calculate base price
@@ -26,3 +26,22 @@ export const calculateShippingCost = (quantityTypes: { [key in QuantityType]: nu
   }
   return 0;
 };
+
+export const calculateBasePriceBaseball = (quantity: number) => {
+  const actualQuantity = Math.max(quantity, baseballConstants.minLogos);
+  return actualQuantity * baseballConstants.pricePerLogo;
+};
+
+export const calculateShippingCostBaseball = (quantity: number) => {
+  const actualQuantity = Math.max(quantity, baseballConstants.minLogos); 
+  if (actualQuantity <= 50) {
+    return baseballConstants.shipping.base;
+  }
+  const additional = Math.ceil((actualQuantity - 50) / 25) * baseballConstants.shipping.additionalPer25;
+  return baseballConstants.shipping.base + additional;
+};
+
+export const calculateMoldCostBaseball = () => {
+  return baseballConstants.moldCost; 
+};
+

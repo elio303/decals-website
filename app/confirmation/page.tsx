@@ -9,7 +9,7 @@ export default function ConfirmationPage() {
         We have received your details. Our team will review your order, and you can expect a follow-up via email or phone shortly.
       </p>
       <p className={styles.footer}>
-        If you have any further questions, feel free to contact us at <strong>support@3dbumpers.com</strong>.
+        If you have any further questions, feel free to contact us at <strong>Sales@3DBumpers.com</strong>.
       </p>
     </div>
   );

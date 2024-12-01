@@ -3,12 +3,22 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from '@/app/page.module.css';
+import { Sport } from './types/types';
+import { useFormContext } from '@/context/FormContext';
+import { IFormInput } from './types/types';
 
 export default function Home() {
   const router = useRouter();
+  const { setFormInput } = useFormContext();
 
-  const handleSportSelect = (sport: string) => {
-    router.push(`/customize?sport=${sport}`);
+  const handleSportSelect = (sport: Sport) => {
+    setFormInput((prev: IFormInput) => {
+      return {
+        ...prev,
+        sport,
+      };
+    });
+    router.push('/customize');
   };
 
   return (
@@ -17,7 +27,7 @@ export default function Home() {
       <div className={styles.sportContainer}>
         <div
           className={styles.sport}
-          onClick={() => handleSportSelect('Baseball Helmet')}
+          onClick={() => handleSportSelect('baseball')}
         >
           <Image
             src="/baseball-helmet.png"
@@ -28,7 +38,7 @@ export default function Home() {
         </div>
         <div
           className={styles.sport}
-          onClick={() => handleSportSelect('Football Helmet')}
+          onClick={() => handleSportSelect('football')}
         >
           <Image
             src="/football-helmet.png"

@@ -26,6 +26,17 @@ export const extraCosts: ExtraCosts = {
   ],
 };
 
+export const baseballConstants = {
+  moldCost: 50,
+  pricePerLogo: 3.75,
+  minLogos: 15,
+  shipping: {
+    base: 30, 
+    additionalPer25: 5,
+  },
+};
+
+
 export const pricePerUnit = {
   frontBumper: 2.5,
   rearBumper: 3.5,

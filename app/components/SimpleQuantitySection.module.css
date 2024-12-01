@@ -1,0 +1,70 @@
+/* Card for each quantity section */
+.quantitySection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* Input row for label and input field */
+  .inputRow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Styling the label for input fields */
+  .inputRow label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  /* Styling the input fields (numbers) */
+  .inputRow input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  /* Focus effect on input fields */
+  .inputRow input[type="number"]:focus {
+    outline: none;
+    border-color: #1a73e8;
+    background-color: #fff;
+  }
+  
+  /* Optional: Hover effect on input rows */
+  .inputRow:hover input[type="number"] {
+    border-color: #007bff;
+  }
+  
+  /* Section title styling */
+  .card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* For small screens: adjust layout */
+  @media (max-width: 768px) {
+    .quantitySection {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  
+    .inputRow label {
+      font-size: 0.9rem;
+    }
+  
+    .inputRow input[type="number"] {
+      font-size: 0.9rem;
+    }
+  }
+  

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useFormContext } from '@/context/FormContext';
-import { FormInput } from '@/app/types/types';
+import { IFormInput } from '@/app/types/types';
 import styles from '@/app/contact/page.module.css'; 
 
 export default function ContactForm() {
@@ -10,20 +10,9 @@ export default function ContactForm() {
   const { formInput, setFormInput } = useFormContext(); 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, dataset } = e.target;
+    const { name, value } = e.target;
 
-    setFormInput((prev: FormInput) => {
-      if (name === 'frontQuantityTypes' || name === 'rearQuantityTypes') {
-        const dynamicKey = dataset.key || ''; 
-        return {
-          ...prev,
-          [name]: {
-            ...prev[name as 'frontQuantityTypes' | 'rearQuantityTypes'],
-            [dynamicKey]: Number(value),
-          },
-        };
-      }
-
+    setFormInput((prev: IFormInput) => {
       return {
         ...prev,
         [name]: value,

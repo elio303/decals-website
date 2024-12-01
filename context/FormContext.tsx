@@ -1,19 +1,23 @@
 'use client'
 
 import { createContext, useContext, ReactNode, useState } from 'react';
-import { FormInput } from '@/app/types/types';
+import { IFormInput } from '@/app/types/types';
 
 const FormContext = createContext<{
-  formInput: FormInput;
-  setFormInput: React.Dispatch<React.SetStateAction<FormInput>>;
+  formInput: IFormInput;
+  setFormInput: React.Dispatch<React.SetStateAction<IFormInput>>;
 } | null>(null);
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
-  const [formInput, setFormInput] = useState<FormInput>({
+  const [formInput, setFormInput] = useState<IFormInput>({
+    sport: 'baseball',
     firstName: '',
     lastName: '',
     phoneNumber: '',
     email: '',
+    bumperQuantity: 15,
+    bumperType: 'Text',
+    bumperColor: '#FF0000',
     frontBumperType: 'Text',
     rearBumperType: 'Text',
     frontQuantityTypes: {
