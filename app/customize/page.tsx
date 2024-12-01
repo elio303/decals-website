@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import Image from 'next/image';
 import { QuantityType, BumperType } from '../types/calculations';
-import { calculateBasePrice, calculateMoldCost, calculateShippingCost } from '../utils/calculate'; // Import the calculation functions
+import { calculateBasePrice, calculateMoldCost, calculateShippingCost } from '../utils/calculate';
 
 interface FormInput {
   firstName: string;
@@ -22,6 +23,7 @@ interface FormInput {
 }
 
 export default function Customize() {
+  const router = useRouter();
   const [formInput, setFormInput] = useState<FormInput>({
     firstName: '',
     lastName: '',
@@ -92,6 +94,11 @@ export default function Customize() {
         [name]: value,
       }));
     }
+  };
+
+  const navigateToContact = () => {
+    const queryString = encodeURIComponent(JSON.stringify(formInput));
+    router.push(`/contact?formData=${queryString}`);
   };
 
   return (
@@ -308,6 +315,11 @@ export default function Customize() {
           <h2 className={styles.sectionTitle}>Total Estimate</h2>
           <h3>Total Estimate (Base + Mold + Shipping): ${totalEstimate.toFixed(2)}</h3>
         </div>
+
+        {/* Navigation Button */}
+        <button type="button" onClick={navigateToContact} className={styles.button}>
+          Next
+        </button>
       </form>
     </div>
   );
