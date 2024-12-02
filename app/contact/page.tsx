@@ -35,7 +35,7 @@ export default function ContactForm() {
     return true;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setIsLoading(true);
     setError(null);
 
@@ -44,27 +44,30 @@ export default function ContactForm() {
       return;
     }
 
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formInput),
+    fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formInput),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return Promise.reject(`Failed to send email: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(() => {
+        router.push('/confirmation');
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setError(error);
+        toast.error(`Failed to send email: ${error}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-
-      if (!response.ok) {
-        throw new Error(`Failed to send email: ${response.statusText}`);
-      }
-
-      router.push('/confirmation');
-    } catch (error: any) {
-      console.error('Error:', error);
-      setError(error.message);
-      toast.error(`Failed to send email: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
