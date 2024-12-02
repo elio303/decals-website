@@ -3,10 +3,10 @@ import type { IBaseballInput, IFootballInput, IFormInput } from '@/app/types/typ
 import AWS from 'aws-sdk';
 
 const ses = new AWS.SES({
-    accessKeyId: process.env.AWS_KEY,
-    secretAccessKey: process.env.AWS_SECRET,
-    region: process.env.AWS_REGION,
-  });
+  accessKeyId: process.env.AWS_KEY,
+  secretAccessKey: process.env.AWS_SECRET,
+  region: process.env.AWS_REGION,
+});
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -15,6 +15,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const body: IFormInput = req.body;
+  const isEmailEnabled = process.env.SEND_EMAILS_ENABLED === 'true';
+
+  if (!isEmailEnabled) {
+    res.status(200).json({ message: 'Emails are currently disabled.' });
+    return;
+  }
 
   try {
     switch (body.sport) {
@@ -40,15 +46,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 async function sendBaseballEmail(input: IBaseballInput) {
-    const subject = 'Baseball Inquiry';
-    const body = baseballTemplate(input);
-    await sendEmail(subject, body);
+  const subject = 'Baseball Inquiry';
+  const body = baseballTemplate(input);
+  await sendEmail(subject, body);
 }
 
 async function sendFootballEmail(input: IFootballInput) {
-    const subject = 'Football Inquiry';
-    const body = footballTemplate(input);
-    await sendEmail(subject, body);
+  const subject = 'Football Inquiry';
+  const body = footballTemplate(input);
+  await sendEmail(subject, body);
 }
 
 const generateQuantityText = (quantityTypes: Record<string, number>): string => {
@@ -104,32 +110,31 @@ New baseball inquiry received:
 
 Bumper Type: ${bumperType}
 Bumper Color: ${bumperColor}
-Bumper Type: ${bumperQuantity}
+Bumper Quantity: ${bumperQuantity}
 Text Color: ${textColor}
 Outline Color: ${outlineColor}
   `;
 };
 
-
 async function sendEmail(subject: string, body: string) {
-    const sourceEmail: string = process.env.SES_SOURCE_EMAIL as string;
-    const destinationEmail: string = process.env.SES_DESTINATION_EMAIL as string;
-    const params = {
-        Source:  sourceEmail, 
-        Destination: {
-            ToAddresses: [destinationEmail],
+  const sourceEmail: string = process.env.SES_SOURCE_EMAIL as string;
+  const destinationEmail: string = process.env.SES_DESTINATION_EMAIL as string;
+  const params = {
+    Source: sourceEmail,
+    Destination: {
+      ToAddresses: [destinationEmail],
+    },
+    Message: {
+      Subject: {
+        Data: subject,
+      },
+      Body: {
+        Text: {
+          Data: body,
         },
-        Message: {
-            Subject: {
-                Data: subject,
-            },
-            Body: {
-                Text: {
-                    Data: body,
-                },
-            },
-        },
-    };
+      },
+    },
+  };
 
-    await ses.sendEmail(params).promise();
+  await ses.sendEmail(params).promise();
 }
