@@ -20,7 +20,7 @@ export const extraCosts: ExtraCosts = {
   ],
   rear: [
     { cost: 50, types: ['Riddell Flex', 'Riddell Speed', 'Riddell Axiom', 'Light'] },
-    { cost: 50, types: ['Schutt XP/DNA', 'Xenith X2E', 'Xenith Shadow', 'Vicis Zero 2', 'Vicis Trench', 'Schutt F7'] },
+    { cost: 50, types: ['Schutt XP/DNA', 'Xenith X2E', 'Vicis Zero 2', 'Vicis Trench'] },
     { cost: 50, types: ['Schutt F7'] },
     { cost: 35, types: ['Xenith Shadow', 'Xenith Orbit'] },
   ],
