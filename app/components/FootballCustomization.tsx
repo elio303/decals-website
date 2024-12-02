@@ -35,15 +35,17 @@ const FootballCustomization = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
+  
     if (name.startsWith('front-') || name.startsWith('rear-')) {
       const [position, type] = name.split('-') as ['front' | 'rear', QuantityType];
-
+  
+      const parsedValue = parseInt(value.replace(/^0+/, ''), 10);
+  
       setFormInput((prevState: IFormInput) => ({
         ...prevState,
         [`${position}QuantityTypes`]: {
           ...(prevState[`${position}QuantityTypes`] as { [key in QuantityType]: number }),
-          [type]: parseInt(value, 10) || 0,
+          [type]: !isNaN(parsedValue) ? parsedValue : 0,
         },
       }));
     } else {

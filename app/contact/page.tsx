@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function ContactForm() {
   const router = useRouter();
   const { formInput, setFormInput } = useFormContext();
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -25,9 +25,24 @@ export default function ContactForm() {
     });
   };
 
+  // Form validation function
+  const validateForm = () => {
+    if (!formInput.firstName || !formInput.lastName || !formInput.email || !formInput.phoneNumber) {
+      setError('All fields are required.');
+      toast.error('Please fill in all fields.');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
-    setIsLoading(true); 
-    setError(null); 
+    setIsLoading(true);
+    setError(null);
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch('/api/send-email', {
@@ -45,10 +60,10 @@ export default function ContactForm() {
       router.push('/confirmation');
     } catch (error: any) {
       console.error('Error:', error);
-      setError(error.message); 
-      toast.error(`Failed to send email: ${error.message}`); 
+      setError(error.message);
+      toast.error(`Failed to send email: ${error.message}`);
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
@@ -65,6 +80,7 @@ export default function ContactForm() {
           value={formInput.firstName}
           onChange={handleChange}
           placeholder="Enter your first name"
+          required 
         />
       </div>
 
@@ -77,6 +93,7 @@ export default function ContactForm() {
           value={formInput.lastName}
           onChange={handleChange}
           placeholder="Enter your last name"
+          required 
         />
       </div>
 
@@ -89,6 +106,7 @@ export default function ContactForm() {
           value={formInput.email}
           onChange={handleChange}
           placeholder="Enter your email"
+          required 
         />
       </div>
 
@@ -101,6 +119,7 @@ export default function ContactForm() {
           value={formInput.phoneNumber}
           onChange={handleChange}
           placeholder="Enter your phone number"
+          required 
         />
       </div>
 
@@ -108,7 +127,7 @@ export default function ContactForm() {
         type="button"
         onClick={handleSubmit}
         className={styles.button}
-        disabled={isLoading} 
+        disabled={isLoading}
       >
         {isLoading ? (
           <span className="loader"></span>
@@ -117,7 +136,7 @@ export default function ContactForm() {
         )}
       </button>
 
-      {error && <p className={styles.error}>{error}</p>} 
+      {error && <p className={styles.error}>{error}</p>}
     </form>
   );
 }
