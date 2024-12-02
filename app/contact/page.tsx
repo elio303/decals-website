@@ -3,11 +3,16 @@
 import { useRouter } from 'next/navigation';
 import { useFormContext } from '@/context/FormContext';
 import { IFormInput } from '@/app/types/types';
-import styles from '@/app/contact/page.module.css'; 
+import styles from '@/app/contact/page.module.css';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 export default function ContactForm() {
   const router = useRouter();
-  const { formInput, setFormInput } = useFormContext(); 
+  const { formInput, setFormInput } = useFormContext();
+  const [isLoading, setIsLoading] = useState(false); 
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -21,6 +26,9 @@ export default function ContactForm() {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true); 
+    setError(null); 
+
     try {
       const response = await fetch('/api/send-email', {
         method: 'POST',
@@ -35,9 +43,12 @@ export default function ContactForm() {
       }
 
       router.push('/confirmation');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
-      alert('An error occurred while sending the email. Please try again.');
+      setError(error.message); 
+      toast.error(`Failed to send email: ${error.message}`); 
+    } finally {
+      setIsLoading(false); 
     }
   };
 
@@ -51,7 +62,7 @@ export default function ContactForm() {
           type="text"
           name="firstName"
           id="firstName"
-          value={formInput.firstName}  
+          value={formInput.firstName}
           onChange={handleChange}
           placeholder="Enter your first name"
         />
@@ -63,7 +74,7 @@ export default function ContactForm() {
           type="text"
           name="lastName"
           id="lastName"
-          value={formInput.lastName} 
+          value={formInput.lastName}
           onChange={handleChange}
           placeholder="Enter your last name"
         />
@@ -75,7 +86,7 @@ export default function ContactForm() {
           type="email"
           name="email"
           id="email"
-          value={formInput.email} 
+          value={formInput.email}
           onChange={handleChange}
           placeholder="Enter your email"
         />
@@ -93,9 +104,20 @@ export default function ContactForm() {
         />
       </div>
 
-      <button type="button" onClick={handleSubmit} className={styles.button}>
-        Submit
+      <button
+        type="button"
+        onClick={handleSubmit}
+        className={styles.button}
+        disabled={isLoading} 
+      >
+        {isLoading ? (
+          <span className="loader"></span> 
+        ) : (
+          'Submit'
+        )}
       </button>
+
+      {error && <p className={styles.error}>{error}</p>} 
     </form>
   );
 }
