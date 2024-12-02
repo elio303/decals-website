@@ -40,18 +40,76 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 async function sendBaseballEmail(input: IBaseballInput) {
-    const lines = Object.entries(input).map(([key, value]) => `${key}: ${value}`);
     const subject = 'Baseball Inquiry';
-    const body = `New baseball inquiry received:\n\n${lines.join('\n')}`;
+    const body = baseballTemplate(input);
     await sendEmail(subject, body);
 }
 
 async function sendFootballEmail(input: IFootballInput) {
-    const lines = Object.entries(input).map(([key, value]) => `${key}: ${value}`);
     const subject = 'Football Inquiry';
-    const body = `New football inquiry received:\n\n${lines.join('\n')}`;
+    const body = footballTemplate(input);
     await sendEmail(subject, body);
 }
+
+const generateQuantityText = (quantityTypes: Record<string, number>): string => {
+  return Object.entries(quantityTypes)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('\n');
+};
+
+const footballTemplate = (input: IFootballInput): string => {
+  const {
+    frontBumperType,
+    rearBumperType,
+    frontQuantityTypes,
+    rearQuantityTypes,
+    frontBumperColor,
+    rearBumperColor,
+    textColor,
+    outlineColor,
+  } = input;
+
+  const frontQuantityTypesText = generateQuantityText(frontQuantityTypes);
+  const rearQuantityTypesText = generateQuantityText(rearQuantityTypes);
+
+  return `
+New football inquiry received:
+
+Front Bumper Type: ${frontBumperType}
+Front Bumper Color: ${frontBumperColor}
+Rear Bumper Type: ${rearBumperType}
+Rear Bumper Color: ${rearBumperColor}
+Text Color: ${textColor}
+Outline Color: ${outlineColor}
+
+Front Quantity Types:
+${frontQuantityTypesText}
+
+Rear Quantity Types:
+${rearQuantityTypesText}
+  `;
+};
+
+const baseballTemplate = (input: IBaseballInput): string => {
+  const {
+    bumperType,
+    bumperColor,
+    bumperQuantity,
+    textColor,
+    outlineColor,
+  } = input;
+
+  return `
+New baseball inquiry received:
+
+Bumper Type: ${bumperType}
+Bumper Color: ${bumperColor}
+Bumper Type: ${bumperQuantity}
+Text Color: ${textColor}
+Outline Color: ${outlineColor}
+  `;
+};
+
 
 async function sendEmail(subject: string, body: string) {
     const sourceEmail: string = process.env.SES_SOURCE_EMAIL as string;
