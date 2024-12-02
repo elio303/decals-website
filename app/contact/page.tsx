@@ -20,13 +20,29 @@ export default function ContactForm() {
     });
   };
 
-  const navigateToConfirmation = () => {
-    console.log(formInput);
-    router.push('/confirmation');
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formInput),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to send email: ${response.statusText}`);
+      }
+
+      router.push('/confirmation');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while sending the email. Please try again.');
+    }
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <h2 className={styles.title}>Contact Us</h2>
 
       <div className={styles.inputGroup}>
@@ -35,7 +51,7 @@ export default function ContactForm() {
           type="text"
           name="firstName"
           id="firstName"
-          value={formInput.firstName}  // Use formInput from context
+          value={formInput.firstName}  
           onChange={handleChange}
           placeholder="Enter your first name"
         />
@@ -47,7 +63,7 @@ export default function ContactForm() {
           type="text"
           name="lastName"
           id="lastName"
-          value={formInput.lastName} // Use formInput from context
+          value={formInput.lastName} 
           onChange={handleChange}
           placeholder="Enter your last name"
         />
@@ -59,7 +75,7 @@ export default function ContactForm() {
           type="email"
           name="email"
           id="email"
-          value={formInput.email} // Use formInput from context
+          value={formInput.email} 
           onChange={handleChange}
           placeholder="Enter your email"
         />
@@ -71,13 +87,13 @@ export default function ContactForm() {
           type="tel"
           name="phoneNumber"
           id="phoneNumber"
-          value={formInput.phoneNumber} // Use formInput from context
+          value={formInput.phoneNumber}
           onChange={handleChange}
           placeholder="Enter your phone number"
         />
       </div>
 
-      <button type="button" onClick={navigateToConfirmation} className={styles.button}>
+      <button type="button" onClick={handleSubmit} className={styles.button}>
         Submit
       </button>
     </form>
