@@ -34,6 +34,7 @@ export default function Home() {
             alt="Baseball Helmet"
             width={200}
             height={200}
+            priority
           />
         </div>
         <div
@@ -45,6 +46,7 @@ export default function Home() {
             alt="Football Helmet"
             width={200}
             height={200}
+            priority
           />
         </div>
       </div>

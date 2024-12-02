@@ -27,7 +27,7 @@ const BumperPreview = ({
       }}
     >
       {bumperType === "Logo" ? (
-        <Image src="/logo.jpg" alt={`${label} Logo`} width={200} height={100} />
+        <Image src="/logo.jpg" alt={`${label} Logo`} width={200} height={100} priority />
       ) : (
         <div className={styles.bumperText}>{`${label} Bumper Text`}</div>
       )}
