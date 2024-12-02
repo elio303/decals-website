@@ -6,7 +6,7 @@ import { IFormInput } from '@/app/types/types';
 import styles from '@/app/contact/page.module.css';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ContactForm() {
   const router = useRouter();
@@ -111,7 +111,7 @@ export default function ContactForm() {
         disabled={isLoading} 
       >
         {isLoading ? (
-          <span className="loader"></span> 
+          <span className="loader"></span>
         ) : (
           'Submit'
         )}
