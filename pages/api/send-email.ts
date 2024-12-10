@@ -48,10 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    const contactText = contactTemplate(body)
-    await sendEmail(subject, sportText + contactText);
-
-
+    await sendEmail(subject, sportText + contactTemplate(body));
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email: ', error);

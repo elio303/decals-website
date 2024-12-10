@@ -44,7 +44,7 @@ export default function Home() {
           onClick={() => handleSportSelect('hockey')}
         >
           <Image
-            src="/baseball-helmet.png"
+            src="/hockey-helmet.png"
             alt="Hockey Helmet"
             width={500}
             height={500}
