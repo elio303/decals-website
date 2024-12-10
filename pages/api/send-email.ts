@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { IBaseballInput, IFootballInput, IFormInput } from '@/app/types/types';
+import type { IHockeyInput, IBaseballInput, IFootballInput, IFormInput, IContactInput } from '@/app/types/types';
 import AWS from 'aws-sdk';
 
 const ses = new AWS.SES({
@@ -23,21 +23,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    let sportText = '';
+    let subject = '';
+
     switch (body.sport) {
       case 'football': {
-        const footballInput: IFootballInput = body;
-        await sendFootballEmail(footballInput);
+        subject = 'Football Inquiry';
+        sportText = footballTemplate(body);
         break;
       }
       case 'baseball': {
-        const baseballInput: IBaseballInput = body;
-        await sendBaseballEmail(baseballInput);
+        subject = 'Baseball Inquiry';
+        sportText = baseballTemplate(body);
         break;
       }
-      default:
+      case 'hockey': {
+        subject = 'Hockey Inquiry';
+        sportText = hockeyTemplate(body);
+        break;
+      }
+      default: {
         res.status(400).json({ message: 'Invalid sport type' });
-        return;
+        return; 
+      }
     }
+
+    const contactText = contactTemplate(body)
+    await sendEmail(subject, sportText + contactText);
+
+
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email: ', error);
@@ -45,23 +59,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 }
 
-async function sendBaseballEmail(input: IBaseballInput) {
-  const subject = 'Baseball Inquiry';
-  const body = baseballTemplate(input);
-  await sendEmail(subject, body);
-}
-
-async function sendFootballEmail(input: IFootballInput) {
-  const subject = 'Football Inquiry';
-  const body = footballTemplate(input);
-  await sendEmail(subject, body);
-}
-
 const generateQuantityText = (quantityTypes: Record<string, number>): string => {
   return Object.entries(quantityTypes)
     .map(([key, value]) => `${key}: ${value}`)
     .join('\n');
 };
+
+const contactTemplate = (input: IContactInput): string => {
+  const {
+    firstName,
+    lastName,
+    phoneNumber,
+    email,
+  } = input;
+
+  return `
+First Name: ${firstName}
+Last Name: ${lastName}
+Phone Number: ${phoneNumber}
+Email: ${email}
+  `;
+}
 
 const footballTemplate = (input: IFootballInput): string => {
   const {
@@ -107,6 +125,26 @@ const baseballTemplate = (input: IBaseballInput): string => {
 
   return `
 New baseball inquiry received:
+
+Bumper Type: ${bumperType}
+Bumper Color: ${bumperColor}
+Bumper Quantity: ${bumperQuantity}
+Text Color: ${textColor}
+Outline Color: ${outlineColor}
+  `;
+};
+
+const hockeyTemplate = (input: IHockeyInput): string => {
+  const {
+    bumperType,
+    bumperColor,
+    bumperQuantity,
+    textColor,
+    outlineColor,
+  } = input;
+
+  return `
+New hockey inquiry received:
 
 Bumper Type: ${bumperType}
 Bumper Color: ${bumperColor}

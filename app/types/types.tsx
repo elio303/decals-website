@@ -20,9 +20,9 @@ export type ExtraCosts = { [key in BumperPosition]: ExtraCost[] };
 
 export type BumperPosition = 'front' | 'rear';
 export type BumperType = 'Logo' | 'Text';
-export type Sport = 'baseball' | 'football';
+export type Sport = 'baseball' | 'football' | 'hockey';
 
-export type IFormInput = IContactInput & IFootballInput & IBaseballInput;
+export type IFormInput = IContactInput & IFootballInput & IBaseballInput & IHockeyInput;
 
 export interface IContactInput {
   firstName: string;
@@ -47,6 +47,12 @@ export type IFootballInput = {
 } & IBaseSportInput;
 
 export type IBaseballInput = {
+  bumperType: BumperType;
+  bumperQuantity: number;
+  bumperColor: string;
+} & IBaseSportInput;
+
+export type IHockeyInput = {
   bumperType: BumperType;
   bumperQuantity: number;
   bumperColor: string;

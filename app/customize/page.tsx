@@ -5,11 +5,24 @@ import styles from '@/app/customize/page.module.css';
 import { useFormContext } from '@/context/FormContext';
 import FootballCustomization from '@/app/components/FootballCustomization';
 import BaseballCustomization from '@/app/components/BaseballCustomization';
+import HockeyCustomization from '@/app/components/HockeyCustomization';
 
 const Customize = () => {
   const router = useRouter();
   const { formInput } = useFormContext();
-  const isBaseball = formInput.sport === 'baseball';
+  
+  const getSportCustomization = () => {
+    switch (formInput.sport) {
+      case ('baseball'):
+        return (<BaseballCustomization />);
+      case ('football'):
+        return (<FootballCustomization />);
+      case ('hockey'):
+        return (<HockeyCustomization />);
+      default:
+        return (<BaseballCustomization />);
+    }
+  }
 
   const navigateToContact = () => {
     router.push('/contact');
@@ -17,8 +30,7 @@ const Customize = () => {
 
   return (
     <div className={styles.container}>
-      { isBaseball ? <BaseballCustomization /> : <FootballCustomization /> }
-
+      { getSportCustomization() }
       <button type="button" onClick={navigateToContact} className={styles.button}>
         Next
       </button>

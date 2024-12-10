@@ -23,17 +23,31 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.subtitle}>CHOOSE YOUR SPORT</h2>
+      <div className={styles.chooseSportBar}>
+        <h2>CHOOSE YOUR SPORT</h2>
+      </div>
       <div className={styles.sportContainer}>
-        <div
+      <div
           className={styles.sport}
           onClick={() => handleSportSelect('baseball')}
         >
           <Image
             src="/baseball-helmet.png"
             alt="Baseball Helmet"
-            width={200}
-            height={200}
+            width={500}
+            height={500}
+            priority
+          />
+        </div>
+        <div
+          className={styles.sport}
+          onClick={() => handleSportSelect('hockey')}
+        >
+          <Image
+            src="/baseball-helmet.png"
+            alt="Hockey Helmet"
+            width={500}
+            height={500}
             priority
           />
         </div>
@@ -44,8 +58,8 @@ export default function Home() {
           <Image
             src="/football-helmet.png"
             alt="Football Helmet"
-            width={200}
-            height={200}
+            width={500}
+            height={500}
             priority
           />
         </div>
